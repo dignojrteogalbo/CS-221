@@ -43,6 +43,6 @@ public class Node<E> {
     }
 
     public String toString() {
-        return element.toString();
+        return "Element: " + element.toString() + " Has next: " + (next != null);
     }
 }

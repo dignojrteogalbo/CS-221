@@ -6,7 +6,7 @@ Define tests for at least 21 change scenarios, in addition to the 3 given as exa
   Tests:
     addToFront(A) throws no Exception
     addToRear(A) throws no Exception
-    addAfter(A, B) throws NoSuchElementException
+    addAfter(B, A) throws NoSuchElementException
     add(A) throws no Exception
     add(-1, A) throws IndexOutOfBoundsException
     add(0, A) throws no Exception
@@ -39,8 +39,8 @@ Define tests for at least 21 change scenarios, in addition to the 3 given as exa
     add(A) throws no Exception
     add(B) throws no Exception
     addAfter(A, A) throws no Exception
-    addAfter(A, B) throws no Exception
-    addAfter(B, A) throws NoSuchElementException
+    addAfter(B, A) throws no Exception
+    addAfter(A, B) throws NoSuchElementException
     addAfter(B, B) throws NoSuchElementException
     add(-1, A) throws IndexOutOfBoundsException
     add(0, A) throws no Exception
@@ -81,8 +81,8 @@ Define tests for at least 21 change scenarios, in addition to the 3 given as exa
     add(A) throws no Exception
     add(B) throws no Exception
     addAfter(A, A) throws no Exception
-    addAfter(A, B) throws no Exception
-    addAfter(B, A) throws NoSuchElementException
+    addAfter(B, A) throws no Exception
+    addAfter(A, B) throws NoSuchElementException
     addAfter(B, B) throws NoSuchElementException
     add(-1, A) throws IndexOutOfBoundsException
     add(0, A) throws no Exception
@@ -123,8 +123,8 @@ Define tests for at least 21 change scenarios, in addition to the 3 given as exa
     add(A) throws no Exception
     add(B) throws no Exception
     addAfter(A, A) throws no Exception
-    addAfter(A, B) throws no Exception
-    addAfter(B, A) throws NoSuchElementException
+    addAfter(B, A) throws no Exception
+    addAfter(A, B) throws NoSuchElementException
     addAfter(B, B) throws NoSuchElementException
     add(-1, A) throws IndexOutOfBoundsException
     add(0, A) throws no Exception
@@ -417,13 +417,13 @@ Define tests for at least 21 change scenarios, in addition to the 3 given as exa
     add(B) throws no Exception
     add(C) throws no Exception
     addAfter(A, A) throws no Exception
-    addAfter(A, B) throws no Exception
-    addAfter(A, C) throws no Exception
     addAfter(B, A) throws no Exception
+    addAfter(C, A) throws no Exception
+    addAfter(A, B) throws no Exception
     addAfter(B, B) throws no Exception
-    addAfter(B, C) throws no Exception
-    addAfter(C, A) throws NoSuchElementException
-    addAfter(C, B) throws NoSuchElementException
+    addAfter(C, B) throws no Exception
+    addAfter(A, C) throws NoSuchElementException
+    addAfter(B, C) throws NoSuchElementException
     addAfter(C, C) throws NoSuchElementException
     add(-1, C) throws IndexOutOfBoundsException
     add(0, C) throws no Exception

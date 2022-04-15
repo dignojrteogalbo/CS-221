@@ -1,3 +1,12 @@
+/**
+ * Node double-linked node object used by
+ * IUDoubleLinkedList.
+ * 
+ * @param <E> type to store
+ * 
+ * @author Digno JR Teogalbo
+ * @version CS 221-002 Spring 2022
+ */
 public class Node<E> {
     private E element;
     private Node<E> previous = null;

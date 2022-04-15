@@ -1,0 +1,147 @@
+****************
+* Project Double-Linked List
+* CS 221
+* 8 April 2022
+* Digno JR Teogalbo
+**************** 
+
+OVERVIEW:
+
+ This program implements a double-linked indexed unsorted list. 
+ The implementation provides an iterator, a list iterator, and
+ complete unit tests for this implementation.
+
+
+INCLUDED FILES:
+
+ * ListTester.java - source file
+ * IndexedUnsortedList.java - interface file
+ * IUDoubleLinkedList.java - source file
+ * Node.java - source file
+ * README - this file
+
+
+COMPILING AND RUNNING:
+ 
+ From the directory containing all source files, compile the
+ driver class (and all dependencies) with the command:
+ $ javac *.java
+
+ Run the compiled class file with the command:
+ $ java ListTester
+
+ Console output will give the results after the program finishes.
+
+PROGRAM DESIGN AND IMPORTANT CONCEPTS:
+
+ Firstly, this is a double-linked implementation of the indexed unsorted 
+ list, and because of that we need to create an object that can be linked to
+ other objects. My created node class is not an interface but its own object
+ which contains the attributes: next, previous, and element, as well as
+ getters and setters for each of those attributes. My double-linked
+ implementation leverages this node class by establishing head and tail nodes
+ and traversing through the list by accessing each node's next and previous
+ node pointers. The list itself only contains the pointer to the head and 
+ tail nodes, and accessing the elements is done via the getter methods for 
+ each specific node's element.
+
+ Secondly, the head node is expected to have a null pointer for its previous 
+ node and the tail node is expected to have a null pointer for each its next 
+ node. When removing elements or adding elements, there needs to be specific 
+ checks if the node is the head or tail in order to avoid null pointer 
+ exceptions at runtime. Otherwise, the node is expected to have non-null 
+ pointers to next and previous.
+
+ Additionally, we take advantage of the double-linked nature of our nodes by
+ traversing not only from head to tail, but also from tail to head. In the
+ gotoNode() method you can see that we change our origin of traversal depends 
+ on the where the index is closer to. Similarly, in the indexOf() method, we
+ create two pointers and traverse simultaneously from the head and tail 
+ towards the middle.
+
+ Furthermore, because the node is double-linked, there exists a constructor to 
+ initialize the next and previous with specified nodes. The first parameter is
+ the element, the second optional parameter specifies the next node, and the 
+ third optional parameter specifies the previous node. The default constructor
+ with the element only initializes the next and previous nodes as null. Passing
+ null into either the next or previous parameter also indicates that there is
+ no next or previous node as well.
+
+
+TESTING:
+ 
+ When creating the list iterator tests for the two element and three element 
+ lists, I saw that the zero and one element list iterator tests just tested 
+ every method for every valid constructor for the list. And so I replicated 
+ the same tests for both the two and three element list iterator tests but for 
+ with every addtional constructor at every valid index. After these method 
+ tests, I tested the add, set, and remove methods again after one call to 
+ next and after one call to previous if there was a valid position for each 
+ initial list iterator position. For instance, with a list iterator initially 
+ in the middle of the list, I would test the methods, the methods after one 
+ next call, the methods after one previous call, and the methods after one 
+ next call and one previous call, and finally the methods after one previous 
+ call and one next call. If the list iterator was at the beginning of the list, 
+ I would test the methods, the methods after one next call, and the methods 
+ after one next call and one previous call. And lastly, If the list iterator 
+ was at the end of the list, I would test the methods, the methods after one 
+ previous call, and the methods after one previous call and one next call.
+
+ Methods to test: add(), set(), remove()
+
+ List iterator position at beginning would test methods at: 
+ (Beginning will be before the first element)
+    initial, next, next & previous
+
+ List iterator position at middle would test methods at:
+ (Middle is anywhere after the first element and before the last element)
+    intial, next, previous, next & previous, previous & next 
+
+ List iterator position at end would test methods at: 
+ (End position will be after the last element)
+    initial, previous, previous & next
+
+ For additional list iterator change scenarios, I added the change scenarios 
+ as outlined in 50-82 in ListTestingScenarios.txt.
+
+ Sometimes when I encounter failed tests and I am unable to determine what causes 
+ the fail, debug that specific change scenario and method by creating a main 
+ method in my IUDoubleLinkedList.java. This way I can replicate the same change 
+ scenario, call the same method, and utilize the debugger to see what is going wrong 
+ with my code. And after the debugging process and I confirm that the issue is no 
+ longer there, I retest with the ListTester.java and I am able to confirm that I 
+ have correctly fixed the issue.
+
+DISCUSSION:
+ 
+ When creating my double-linked list implementation of the indexed unsorted 
+ list, I had to modify my node class to contain another instance variable for
+ the previous node. I also created another constructor which took in a third 
+ parameter to initialize the previous node, along with getter and setter methods 
+ for the previous node. Writing the standard methods for the indexed snsorted list 
+ with a double-linked list implementation was easy as I had a single-linked list 
+ implementation that I already had from a prior assignment to reference. Many 
+ methods could be optimized to run faster by leveraging the previous node. 
+ Specifically, I created a private method called gotoNode() which traverses the 
+ list from the head or tail depending on where index is closer to. I believe that 
+ this will cause the runtime of node retrieval to be T(n/2) calls at worse case 
+ when the index is at the middle of the list. And T(1) calls at be best case when 
+ the index is either at the head or tail. Similarly, optimized the indexOf() method 
+ by searching from both the head and tail and working towards the middle, which 
+ should cause the runtime to be T(n/2) at worst case.
+
+ I was able to figure out how to do the list iterator remove() method by 
+ understanding that the last returned value from either next() or previous() also 
+ was the value of prevNode and nextNode respectively. By doing so, I could set a 
+ removeNode variable and simplify the problem to just removing that node. I already 
+ had a working remove() method in my implementation, so I could replicate the code 
+ signature in my list iterator's remove() method. I used this similar process of 
+ setting a removeNode for the set() method, where instead of a removeNode, I 
+ created a setNode and called change the element of that setNode.
+
+ Writing Javadocs comments on all the classes and methods was time consuming. So I
+ installed a VSCode extension to write all the boilerplate code such as the @return
+ @throws, and @params for all of the public methods and classes. I tried to code in
+ a way that was easy to read what the code was doing.
+
+----------------------------------------------------------------------------

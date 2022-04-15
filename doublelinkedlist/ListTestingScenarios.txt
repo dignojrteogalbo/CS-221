@@ -58,34 +58,34 @@ including Iterator remove() method, add the following:
 49) [A,B,C] -> iterator remove() after next() returns C -> [A,B] X
  
 including ListIterator with remove(), add(), and set() methods:
-50-55) same as Iterator remove() after next() scenarios above
-56) [A] -> iterator remove() after previous() returns A -> []
-57) [A,B] -> iterator remove() after previous() returns A -> [B]
-58) [A,B] -> iterator remove() after previous() returns B -> [A]
-59) [A,B,C] -> iterator remove() after previous() returns A -> [B,C]
-60) [A,B,C] -> iterator remove() after previous() returns B -> [A,C]
-61) [A,B,C] -> iterator remove() after previous() returns C -> [A,B]
-62) [] -> iterator add(A) -> [A]
-63) [A] -> iterator add(B) with new iterator -> [B,A]
-64) [A] -> iterator add(B) after next() returns A -> [A,B]
-65) [A] -> iterator add(B) after previous() returns A -> [B,A]
-66) [A,B] -> iterator add(C) with new iterator -> [C,A,B]
-67) [A,B] -> iterator add(C) after next() returns A -> [A,C,B]
-68) [A,B] -> iterator add(C) after next() returns B -> [A,B,C]
-69) [A,B] -> iterator add(C) after previous() returns A -> [C,A,B]
-70) [A,B] -> iterator add(C) after previous() returns B -> [A,C,B]
-71) [A] -> iterator set(B) after next() returns A -> [B]
-72) [A] -> iterator set(B) after previous() returns A -> [B]
-73) [A,B] -> iterator set(C) after next() returns A -> [C,B]
-74) [A,B] -> iterator set(C) after next() returns B -> [A,C]
-75) [A,B] -> iterator set(C) after previous() returns A -> [C,B]
-76) [A,B] -> iterator set(C) after previous() returns B -> [A,C]
-77) [A,B,C] -> iterator set(D) after next() returns A -> [D,B,C]
-78) [A,B,C] -> iterator set(D) after next() returns B -> [A,D,C]
-79) [A,B,C] -> iterator set(D) after next() returns C -> [A,B,D]
-80) [A,B,C] -> iterator set(D) after previous() returns A -> [D,B,C]
-81) [A,B,C] -> iterator set(D) after previous() returns B -> [A,D,C]
-82) [A,B,C] -> iterator set(D) after previous() returns C -> [A,B,D]
+50-55) same as Iterator remove() after next() scenarios above X
+56) [A] -> iterator remove() after previous() returns A -> [] X
+57) [A,B] -> iterator remove() after previous() returns A -> [B] X
+58) [A,B] -> iterator remove() after previous() returns B -> [A] X
+59) [A,B,C] -> iterator remove() after previous() returns A -> [B,C] X
+60) [A,B,C] -> iterator remove() after previous() returns B -> [A,C] X
+61) [A,B,C] -> iterator remove() after previous() returns C -> [A,B] X
+62) [] -> iterator add(A) -> [A] X
+63) [A] -> iterator add(B) with new iterator -> [B,A] X
+64) [A] -> iterator add(B) after next() returns A -> [A,B] X
+65) [A] -> iterator add(B) after previous() returns A -> [B,A] X
+66) [A,B] -> iterator add(C) with new iterator -> [C,A,B] X
+67) [A,B] -> iterator add(C) after next() returns A -> [A,C,B] X
+68) [A,B] -> iterator add(C) after next() returns B -> [A,B,C] X
+69) [A,B] -> iterator add(C) after previous() returns A -> [C,A,B] X
+70) [A,B] -> iterator add(C) after previous() returns B -> [A,C,B] X
+71) [A] -> iterator set(B) after next() returns A -> [B] X
+72) [A] -> iterator set(B) after previous() returns A -> [B] X
+73) [A,B] -> iterator set(C) after next() returns A -> [C,B] X
+74) [A,B] -> iterator set(C) after next() returns B -> [A,C] X
+75) [A,B] -> iterator set(C) after previous() returns A -> [C,B] X
+76) [A,B] -> iterator set(C) after previous() returns B -> [A,C] X
+77) [A,B,C] -> iterator set(D) after next() returns A -> [D,B,C] X
+78) [A,B,C] -> iterator set(D) after next() returns B -> [A,D,C] X
+79) [A,B,C] -> iterator set(D) after next() returns C -> [A,B,D] X
+80) [A,B,C] -> iterator set(D) after previous() returns A -> [D,B,C] X
+81) [A,B,C] -> iterator set(D) after previous() returns B -> [A,D,C] X
+82) [A,B,C] -> iterator set(D) after previous() returns C -> [A,B,D] X
  
 ArrayList/SLL with fully-implemented Iterator: 49 scenarios
 DLL with fully-implemented ListIterator: 82 scenarios
