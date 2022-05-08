@@ -27,6 +27,10 @@ public class IUSingleLinkedList<T> implements IndexedUnsortedList<T> {
         modCount = 0;
     }
 
+    public Node<T> giveHead() {
+        return this.head;
+    }
+
     @Override
     public void addToFront(T element) {
         Node<T> newNode = new Node<>(element, head);

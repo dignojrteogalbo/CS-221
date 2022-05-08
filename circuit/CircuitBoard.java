@@ -1,12 +1,15 @@
 import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
  * Represents a 2D circuit board as read from an input file.
  *  
- * @author mvail
+ * @author mvail, dteogalbo
+ * @version CS221-002 Spring 2022
  */
 public class CircuitBoard {
 	/** current contents of the board */
@@ -44,15 +47,172 @@ public class CircuitBoard {
 	 */
 	public CircuitBoard(String filename) throws FileNotFoundException {
 		Scanner fileScan = new Scanner(new File(filename));
-		
-		//TODO: parse the given file to populate the char[][]
-		// throw FileNotFoundException if Scanner cannot read the file
-		// throw InvalidFileFormatException if any formatting or parsing issues are encountered
-		
-		ROWS = 0; //replace with initialization statements using values from file
-		COLS = 0;
-		
+
+		try {
+			String firstLine = fileScan.nextLine();
+			int[] dimensions = testFirstLine(firstLine);
+			ROWS = dimensions[0];
+			COLS = dimensions[1];
+			board = new char[ROWS][COLS];
+		} catch (NoSuchElementException err) {
+			throw new InvalidFileFormatException("Missing first line!");
+		}
+
+		int rowCount = 0;
+
+		while (fileScan.hasNextLine()) {
+			rowCount++;
+			String rowString = fileScan.nextLine();
+
+			if (rowCount <= ROWS) {
+				char[] rowItems = testRow(rowString);
+				testColumns(rowItems, rowCount - 1);
+			}
+		}
+
+		if (rowCount != ROWS) {
+			String errorString = String.format("Expected %d rows, found %d rows!", ROWS, rowCount);
+			throw new InvalidFileFormatException(errorString);
+		}
+
+		if (startingPoint == null) {
+			throw new InvalidFileFormatException("Missing start point!");
+		}
+
+		if (endingPoint == null) {
+			throw new InvalidFileFormatException("Missing end point!");
+		}
+
 		fileScan.close();
+	}
+
+	/**
+	 * Validates the first line of the file. Returns an int[] with the parsed dimensions of the circuit board grid.
+	 * 
+	 * @param firstLine String the first line of the file
+	 * @return int[] dimensions of the board with index 0 being the number of rows and index 1 being the number of columns
+	 * @throws InvalidFileFormatException 
+	 * 			if the number of rows is a non-integer value, 
+	 * 			if the number of columns is a non-integer value, 
+	 * 			if the number of rows is missing, 
+	 * 			if the number of columns is missing
+	 */
+	private int[] testFirstLine(String firstLine) throws InvalidFileFormatException {
+		int[] dimensions = new int[2];
+		Scanner firstLineScanner = new Scanner(firstLine);
+
+		try {
+			dimensions[0] = firstLineScanner.nextInt();
+		} catch (InputMismatchException err) {
+			firstLineScanner.close();
+			throw new InvalidFileFormatException("Non-integer value for row!");
+		} catch (NoSuchElementException err) {
+			firstLineScanner.close();
+			throw new InvalidFileFormatException("Missing number of rows!");
+		}
+
+		try {
+			dimensions[1] = firstLineScanner.nextInt();
+		} catch (InputMismatchException err) {
+			firstLineScanner.close();
+			throw new InvalidFileFormatException("Non-integer value for column!");
+		} catch (NoSuchElementException err) {
+			firstLineScanner.close();
+			throw new InvalidFileFormatException("Missing number of columns!");
+		}
+
+		firstLineScanner.close();
+		return dimensions;
+	}
+
+	/**
+	 * Validates a row of text in a file. Returns a char array with the valid characters parsed from the file.
+	 * 
+	 * @param row String of the current row
+	 * @return char[] valid board items in the row
+	 * @throws InvalidFileFormatException
+	 * 			if the number of row items is greater than the number of columns
+	 * 			if an item in the row has a length greater than 1,
+	 * 			if an item in the row is not an allowed character
+	 */
+	private char[] testRow(String row) throws InvalidFileFormatException {
+		char[] rowItems = new char[COLS];
+		Scanner rowScanner = new Scanner(row);
+		int index = 0;
+
+		while (rowScanner.hasNext()) {
+			String boardItem = rowScanner.next();
+			char boardChar = boardItem.charAt(0);
+
+			if (boardItem.length() > 1) {
+				rowScanner.close();
+				throw new InvalidFileFormatException("Board item has a length greater than 1!");
+			}
+			
+			if (ALLOWED_CHARS.indexOf(boardChar) == -1) {
+				rowScanner.close();
+				throw new InvalidFileFormatException("Board item is not an allowed character!");
+			}
+
+			if (index >= COLS) {
+				rowScanner.close();
+				String errorString = String.format("Expected %d columns, found %d columns!", COLS, index + 1);
+				throw new InvalidFileFormatException(errorString);
+			}
+
+			rowItems[index] = boardChar;
+			index++;
+		}
+
+		if (index != COLS) {
+			rowScanner.close();
+			String errorString = String.format("Expected %d columns, found %d columns!", COLS, index);
+			throw new InvalidFileFormatException(errorString);
+		}
+
+		rowScanner.close();
+		return rowItems;
+	}
+
+	/**
+	 * Validates every row item in a row. Sets the starting point and ending point after parsing every row item.
+	 * 
+	 * @param rowItems char[] valid row items with (length == number of columns)
+	 * @param rowIndex int index of the row
+	 * @throws InvalidFileFormatException
+	 * 			if there are empty chars in rowItems,
+	 * 			if there are more than 1 start point,
+	 * 			if there are more than 1 end point
+	 */
+	private void testColumns(char[] rowItems, int rowIndex) throws InvalidFileFormatException {
+		for (int i = 0; i < COLS; i++) {
+			if (rowItems[i] == 0) {
+				String errorString = String.format("Expected %d columns, found %d columns!", COLS, i + 1);
+				throw new InvalidFileFormatException(errorString);
+			}
+
+			if (rowItems[i] == TRACE) {
+				throw new InvalidFileFormatException("Found existing trace in board!");
+			}
+
+			if (rowItems[i] == START) {
+				if (startingPoint == null) {
+					startingPoint = new Point(rowIndex, i);
+				} else {
+					throw new InvalidFileFormatException("Found more than 1 start point!");
+				}
+			}
+
+			if (rowItems[i] == END) {
+				if (endingPoint == null) {
+					endingPoint = new Point(rowIndex, i);
+				} else {
+					throw new InvalidFileFormatException("Found more than 1 end point!");
+				}
+			}
+
+			board[rowIndex][i] = rowItems[i];
+		}
 	}
 	
 	/** Copy constructor - duplicates original board
